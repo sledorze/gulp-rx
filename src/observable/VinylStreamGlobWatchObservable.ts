@@ -5,22 +5,26 @@ import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
 import { TeardownLogic } from 'rxjs/Subscription';
 
+import { WatchOptions } from 'chokidar'
+
 import * as Vinyl from 'vinyl';
 import * as fs from 'fs';
 const watch = require('glob-watcher');
 
+export { WatchOptions }
+
 export class VinylStreamGlobWatchObservable extends Observable<Vinyl> {
 
-	static create(glob: string | string[], scheduler?: IScheduler): Observable<Vinyl> {
-		return new VinylStreamGlobWatchObservable(glob, scheduler);
+	static create(glob: string | string[], options?: WatchOptions, scheduler?: IScheduler): Observable<Vinyl> {
+		return new VinylStreamGlobWatchObservable(glob, options, scheduler);
 	}
 
-	private constructor(private glob: string | string[], private scheduler?: IScheduler) {
+	private constructor(private glob: string | string[], private options?: WatchOptions, private scheduler?: IScheduler) {
 		super();
 	}
 
 	protected _subscribe(subscriber: Subscriber<Vinyl>): TeardownLogic {
-		const watcher = watch(this.glob);
+		const watcher = watch(this.glob, this.options);
 		const scheduler = this.scheduler;
 
 		const next = (path: string) => {

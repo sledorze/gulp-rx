@@ -5,16 +5,17 @@ const Vinyl = require("vinyl");
 const fs = require("fs");
 const watch = require('glob-watcher');
 class VinylStreamGlobWatchObservable extends Observable_1.Observable {
-    constructor(glob, scheduler) {
+    constructor(glob, options, scheduler) {
         super();
         this.glob = glob;
+        this.options = options;
         this.scheduler = scheduler;
     }
-    static create(glob, scheduler) {
-        return new VinylStreamGlobWatchObservable(glob, scheduler);
+    static create(glob, options, scheduler) {
+        return new VinylStreamGlobWatchObservable(glob, options, scheduler);
     }
     _subscribe(subscriber) {
-        const watcher = watch(this.glob);
+        const watcher = watch(this.glob, this.options);
         const scheduler = this.scheduler;
         const next = (path) => {
             fs.readFile(path, (err, data) => {
