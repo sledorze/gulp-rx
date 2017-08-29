@@ -10,7 +10,7 @@ export declare class VinylStreamGlobWatchObservable extends Observable<Vinyl> {
     private glob;
     private options;
     private scheduler;
-    static create(glob: string | string[], options: WatchOptions | undefined, scheduler?: IScheduler): Observable<Vinyl>;
+    static create(glob: string | string[], options?: WatchOptions, scheduler?: IScheduler): Observable<Vinyl>;
     private constructor();
     protected _subscribe(subscriber: Subscriber<Vinyl>): TeardownLogic;
 }
