@@ -9,6 +9,6 @@ export declare class VinylStreamObservable extends Observable<Vinyl> {
     private stream;
     private scheduler;
     static create(stream: NodeJS.ReadWriteStream, scheduler?: IScheduler): Observable<Vinyl>;
-    protected constructor(stream: NodeJS.ReadWriteStream, scheduler?: IScheduler);
+    protected constructor(stream: NodeJS.ReadWriteStream, scheduler?: IScheduler | undefined);
     protected _subscribe(subscriber: Subscriber<Vinyl>): TeardownLogic;
 }
