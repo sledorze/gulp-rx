@@ -1,11 +1,14 @@
 
 import { Observable, Subject } from 'rxjs/Rx';
 import * as assert from 'assert';
+import * as vinyl from 'vinyl'
 import '../';
 
 import * as gulp from 'gulp';
 
 describe('Observable.task', () => {
+
+	const dummyFile = new vinyl({ path: 'dummy' })
 
 	describe('Execution', () => {
 
@@ -19,7 +22,7 @@ describe('Observable.task', () => {
 				callback.next();
 				cb();
 			})
-			Observable.of({})
+			Observable.of(dummyFile)
 				.task('test-task-one')
 				.subscribe({
 					error: err => { throw err; },
@@ -36,7 +39,7 @@ describe('Observable.task', () => {
 			const callback = new Subject<any>();
 			const next = new Subject<any>();
 
-			Observable.of({})
+			Observable.of(dummyFile)
 				.task((cb: (err?: Error) => void) => {
 					callback.next();
 					cb();
@@ -56,7 +59,7 @@ describe('Observable.task', () => {
 			const callback = new Subject<any>();
 			const next = new Subject<any>();
 
-			Observable.of({})
+			Observable.of(dummyFile)
 				.task(() => new Promise((resolve) => {
 					callback.next()
 					resolve();
@@ -76,7 +79,7 @@ describe('Observable.task', () => {
 			const callback = new Subject<any>();
 			const next = new Subject<any>();
 
-			Observable.of({})
+			Observable.of(dummyFile)
 				.task(() => Observable.of({}).do(() => callback.next()))
 				.subscribe({
 					error: err => { throw err; },
@@ -107,7 +110,7 @@ describe('Observable.task', () => {
 				cb(error);
 			});
 
-			Observable.of({})
+			Observable.of(dummyFile)
 				.task('test-task-one')
 				.subscribe({
 					error: e => {
@@ -129,7 +132,7 @@ describe('Observable.task', () => {
 				throw error;
 			});
 
-			Observable.of({})
+			Observable.of(dummyFile)
 				.task('test-task-one')
 				.subscribe({
 					error: e => {
@@ -146,7 +149,7 @@ describe('Observable.task', () => {
 			const errorSubject = new Subject<any>();
 			let error: Error;
 
-			Observable.of({})
+			Observable.of(dummyFile)
 				.task((cb: (err?: Error) => void) => {
 					error = new Error('Some message');
 					cb(error);
@@ -166,7 +169,7 @@ describe('Observable.task', () => {
 			const errorSubject = new Subject<any>();
 			let error: Error;
 
-			Observable.of({})
+			Observable.of(dummyFile)
 				.task(() => {
 					error = new Error('Some message');
 					throw error;
@@ -186,7 +189,7 @@ describe('Observable.task', () => {
 			const errorSubject = new Subject<any>();
 			let error: Error;
 
-			Observable.of({})
+			Observable.of(dummyFile)
 				.task(() => new Promise((resolve, reject) => {
 					error = new Error('Some message');
 					(reject(error) || true) || resolve();
@@ -206,7 +209,7 @@ describe('Observable.task', () => {
 			const errorSubject = new Subject<any>();
 			let error: Error;
 
-			Observable.of({})
+			Observable.of(dummyFile)
 				.task(() => new Promise(() => {
 					error = new Error('Some message');
 					throw error;
@@ -226,7 +229,7 @@ describe('Observable.task', () => {
 			const errorSubject = new Subject<any>();
 			let error: Error;
 
-			Observable.of({})
+			Observable.of(dummyFile)
 				.task(() => Observable.of({}).map(() => {
 					error = new Error('Some message');
 					throw error;

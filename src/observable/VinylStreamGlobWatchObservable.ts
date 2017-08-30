@@ -30,33 +30,33 @@ export class VinylStreamGlobWatchObservable extends Observable<Vinyl> {
 		const scheduler = this.scheduler;
 
 		const mustRead = this.options ? this.options.read !== false : true
-
+		console.log('mustRead ', mustRead, this.options)
 		const next =
-			!mustRead ?
+			(mustRead === false) ?
 				(
 					(path: string) =>
 						scheduler == null
-							? subscriber.next(new Vinyl({ path: path }))
-							: !subscriber.closed && subscriber.add(scheduler.schedule(subscriber.next, 0, new Vinyl({ path: path })))
+							? subscriber.next(new Vinyl({ path, contents: null }))
+							: !subscriber.closed && subscriber.add(scheduler.schedule(subscriber.next, 0, new Vinyl({ path, contents: null })))
 				) : (
 					(path: string) =>
-						fs.readFile(path, (err, data) => {
+						fs.readFile(path, (err, contents) => {
 							if (err) {
 								scheduler == null
 									? subscriber.error(err)
 									: !subscriber.closed && subscriber.add(scheduler.schedule(subscriber.error, 0, err));
 							} else {
 								scheduler == null
-									? subscriber.next(new Vinyl({ path: path, contents: data }))
-									: !subscriber.closed && subscriber.add(scheduler.schedule(subscriber.next, 0, new Vinyl({ path: path, contents: data })));
+									? subscriber.next(new Vinyl({ path, contents }))
+									: !subscriber.closed && subscriber.add(scheduler.schedule(subscriber.next, 0, new Vinyl({ path, contents })));
 							}
 						})
 				)
 
 		const unlink = (path: string) => {
 			scheduler == null
-				? subscriber.next(new Vinyl({ path: path, contents: null }))
-				: !subscriber.closed && subscriber.add(scheduler.schedule(subscriber.next, 0, new Vinyl({ path: path, contents: null })));
+				? subscriber.next(new Vinyl({ path, contents: null }))
+				: !subscriber.closed && subscriber.add(scheduler.schedule(subscriber.next, 0, new Vinyl({ path, contents: null })));
 
 		};
 

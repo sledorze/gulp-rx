@@ -18,10 +18,11 @@ class VinylStreamGlobWatchObservable extends Observable_1.Observable {
         const watcher = watch(this.glob, this.options);
         const scheduler = this.scheduler;
         const mustRead = this.options ? this.options.read !== false : true;
-        const next = !mustRead ?
+        console.log('mustRead ', mustRead, this.options);
+        const next = (mustRead === false) ?
             ((path) => scheduler == null
-                ? subscriber.next(new Vinyl({ path: path }))
-                : !subscriber.closed && subscriber.add(scheduler.schedule(subscriber.next, 0, new Vinyl({ path: path })))) : ((path) => fs.readFile(path, (err, data) => {
+                ? subscriber.next(new Vinyl({ path, contents: null }))
+                : !subscriber.closed && subscriber.add(scheduler.schedule(subscriber.next, 0, new Vinyl({ path, contents: null })))) : ((path) => fs.readFile(path, (err, contents) => {
             if (err) {
                 scheduler == null
                     ? subscriber.error(err)
@@ -29,14 +30,14 @@ class VinylStreamGlobWatchObservable extends Observable_1.Observable {
             }
             else {
                 scheduler == null
-                    ? subscriber.next(new Vinyl({ path: path, contents: data }))
-                    : !subscriber.closed && subscriber.add(scheduler.schedule(subscriber.next, 0, new Vinyl({ path: path, contents: data })));
+                    ? subscriber.next(new Vinyl({ path, contents }))
+                    : !subscriber.closed && subscriber.add(scheduler.schedule(subscriber.next, 0, new Vinyl({ path, contents })));
             }
         }));
         const unlink = (path) => {
             scheduler == null
-                ? subscriber.next(new Vinyl({ path: path, contents: null }))
-                : !subscriber.closed && subscriber.add(scheduler.schedule(subscriber.next, 0, new Vinyl({ path: path, contents: null })));
+                ? subscriber.next(new Vinyl({ path, contents: null }))
+                : !subscriber.closed && subscriber.add(scheduler.schedule(subscriber.next, 0, new Vinyl({ path, contents: null })));
         };
         watcher.on('add', next);
         watcher.on('change', next);

@@ -10,9 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const Rx_1 = require("rxjs/Rx");
 const assert = require("assert");
+const vinyl = require("vinyl");
 require("../");
 const gulp = require("gulp");
 describe('Observable.task', () => {
+    const dummyFile = new vinyl({ path: 'dummy' });
     describe('Execution', () => {
         it('named task', () => __awaiter(this, void 0, void 0, function* () {
             const complete = new Rx_1.Subject();
@@ -22,7 +24,7 @@ describe('Observable.task', () => {
                 callback.next();
                 cb();
             });
-            Rx_1.Observable.of({})
+            Rx_1.Observable.of(dummyFile)
                 .task('test-task-one')
                 .subscribe({
                 error: err => { throw err; },
@@ -35,7 +37,7 @@ describe('Observable.task', () => {
             const complete = new Rx_1.Subject();
             const callback = new Rx_1.Subject();
             const next = new Rx_1.Subject();
-            Rx_1.Observable.of({})
+            Rx_1.Observable.of(dummyFile)
                 .task((cb) => {
                 callback.next();
                 cb();
@@ -51,7 +53,7 @@ describe('Observable.task', () => {
             const complete = new Rx_1.Subject();
             const callback = new Rx_1.Subject();
             const next = new Rx_1.Subject();
-            Rx_1.Observable.of({})
+            Rx_1.Observable.of(dummyFile)
                 .task(() => new Promise((resolve) => {
                 callback.next();
                 resolve();
@@ -67,7 +69,7 @@ describe('Observable.task', () => {
             const complete = new Rx_1.Subject();
             const callback = new Rx_1.Subject();
             const next = new Rx_1.Subject();
-            Rx_1.Observable.of({})
+            Rx_1.Observable.of(dummyFile)
                 .task(() => Rx_1.Observable.of({}).do(() => callback.next()))
                 .subscribe({
                 error: err => { throw err; },
@@ -90,7 +92,7 @@ describe('Observable.task', () => {
                 error = new Error('Some message');
                 cb(error);
             });
-            Rx_1.Observable.of({})
+            Rx_1.Observable.of(dummyFile)
                 .task('test-task-one')
                 .subscribe({
                 error: e => {
@@ -107,7 +109,7 @@ describe('Observable.task', () => {
                 error = new Error('Some message');
                 throw error;
             });
-            Rx_1.Observable.of({})
+            Rx_1.Observable.of(dummyFile)
                 .task('test-task-one')
                 .subscribe({
                 error: e => {
@@ -120,7 +122,7 @@ describe('Observable.task', () => {
         it('anonymous task (err passed to cb)', () => __awaiter(this, void 0, void 0, function* () {
             const errorSubject = new Rx_1.Subject();
             let error;
-            Rx_1.Observable.of({})
+            Rx_1.Observable.of(dummyFile)
                 .task((cb) => {
                 error = new Error('Some message');
                 cb(error);
@@ -136,7 +138,7 @@ describe('Observable.task', () => {
         it('anonymous task (err thrown)', () => __awaiter(this, void 0, void 0, function* () {
             const errorSubject = new Rx_1.Subject();
             let error;
-            Rx_1.Observable.of({})
+            Rx_1.Observable.of(dummyFile)
                 .task(() => {
                 error = new Error('Some message');
                 throw error;
@@ -152,7 +154,7 @@ describe('Observable.task', () => {
         it('anonymous promise based task (err passed to reject)', () => __awaiter(this, void 0, void 0, function* () {
             const errorSubject = new Rx_1.Subject();
             let error;
-            Rx_1.Observable.of({})
+            Rx_1.Observable.of(dummyFile)
                 .task(() => new Promise((resolve, reject) => {
                 error = new Error('Some message');
                 (reject(error) || true) || resolve();
@@ -168,7 +170,7 @@ describe('Observable.task', () => {
         it('anonymous promise based task (err thrown)', () => __awaiter(this, void 0, void 0, function* () {
             const errorSubject = new Rx_1.Subject();
             let error;
-            Rx_1.Observable.of({})
+            Rx_1.Observable.of(dummyFile)
                 .task(() => new Promise(() => {
                 error = new Error('Some message');
                 throw error;
@@ -184,14 +186,14 @@ describe('Observable.task', () => {
         it('anonymous observable based task (err thrown)', () => __awaiter(this, void 0, void 0, function* () {
             const errorSubject = new Rx_1.Subject();
             let error;
-            Rx_1.Observable.of({})
+            Rx_1.Observable.of(dummyFile)
                 .task(() => Rx_1.Observable.of({}).map(() => {
                 error = new Error('Some message');
                 throw error;
             }))
                 .subscribe({
                 error: e => {
-                    assert.equal(e, error);
+                    assert.equal(e, "error");
                     errorSubject.next();
                 }
             });

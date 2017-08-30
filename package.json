@@ -27,6 +27,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@types/chokidar": "1.7.2",
+		"@types/node": "8.0.26",
 		"@types/vinyl": "^2.0.0",
 		"@types/vinyl-fs": "^2.4.5",
 		"glob-watcher": "^3.2.0",
