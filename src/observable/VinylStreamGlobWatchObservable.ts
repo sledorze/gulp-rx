@@ -30,7 +30,6 @@ export class VinylStreamGlobWatchObservable extends Observable<Vinyl> {
 		const scheduler = this.scheduler;
 
 		const mustRead = this.options ? this.options.read !== false : true
-		console.log('mustRead ', mustRead, this.options)
 		const next =
 			(mustRead === false) ?
 				(
