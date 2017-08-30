@@ -18,7 +18,6 @@ class VinylStreamGlobWatchObservable extends Observable_1.Observable {
         const watcher = watch(this.glob, this.options);
         const scheduler = this.scheduler;
         const mustRead = this.options ? this.options.read !== false : true;
-        console.log('mustRead ', mustRead, this.options);
         const next = (mustRead === false) ?
             ((path) => scheduler == null
                 ? subscriber.next(new Vinyl({ path, contents: null }))
