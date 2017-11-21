@@ -32,7 +32,6 @@
 		"@types/vinyl-fs": "^2.4.5",
 		"glob-watcher": "^3.2.0",
 		"gulp": "github:gulpjs/gulp#4.0",
-		"rxjs": "^5.4.0",
 		"through2": "^2.0.3",
 		"vinyl": "^2.0.2",
 		"vinyl-fs": "^2.4.4"
@@ -46,5 +45,8 @@
 		"merge2": "^1.0.3",
 		"mocha": "^3.4.2",
 		"typescript": "^2.3.3"
+	},
+	"peerDependencies": {
+		"rxjs": "^5.x",
 	}
 }
