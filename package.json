@@ -47,6 +47,6 @@
 		"typescript": "^2.3.3"
 	},
 	"peerDependencies": {
-		"rxjs": "^5.x",
+		"rxjs": "^5.x"
 	}
 }
