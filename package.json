@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/chokidar": "1.7.5",
-    "@types/node": "8.0.26",
+    "@types/node": "8.10.13",
     "@types/vinyl": "2.0.2",
     "@types/vinyl-fs": "2.4.8",
     "glob-watcher": "5.0.1",
@@ -32,7 +32,7 @@
   "devDependencies": {
     "@types/assert": "0.0.31",
     "@types/gulp": "4.0.5",
-    "@types/mocha": "2.2.41",
+    "@types/mocha": "5.2.0",
     "@types/through2": "2.0.33",
     "gulp-typescript": "4.0.2",
     "merge2": "1.2.2",
